@@ -87,12 +87,14 @@ export async function sendMessage(conversationId: string, targets: string[], con
   );
   return resp.data;
 }
+
 export async function getConversation(conversationId: string): Promise<IConversation[]> {
   const resp = await axios.get(`${process.env.REACT_APP_BACKEND}/messages/${conversationId}`, { withCredentials: true })
   return resp.data;
 }
+
 export async function getConversations(
-  connectedUser: IProfile
+  connectedUser: User
 ): Promise<IConversation[]> {
   
   const messages: IConversationMessage[]= await axios
@@ -108,7 +110,8 @@ export async function getConversations(
       
 
     })
-  
+  if (messages.length === 0) return []
+
   const msgReducer = messages.reduce<{ [conversationId: string]: IConversationMessage[] }>(
     (res, message) => ({
       ...res,

@@ -9,7 +9,7 @@ import ConversationListItem from "./ConversationListItem";
 
 interface ConversationListProps {
   users: User[];
-  
+  connectedUser?: User;
 }
 
 interface ConversationListState {
@@ -32,9 +32,11 @@ class ConversationList extends React.Component<
     };
   }
   componentDidMount() {
-    getConversations(this.state.connectedUser)
-      .then((conversations) => this.setState({ conversations: conversations }))
-      .catch((error) => console.error(error));
+    if (!this.props.connectedUser) { return }
+
+    getConversations(this.props.connectedUser)
+      .then(conversations => this.setState({ conversations: conversations }))
+      .catch(error => console.error(error));
   }
 
   render() {
