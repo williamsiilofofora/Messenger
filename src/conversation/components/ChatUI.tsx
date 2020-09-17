@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { match, withRouter } from "react-router-dom";
 import { getConversations, sendMessage } from "../../api/methods";
 import { Loader } from "../../layout/utils/loader";
-import { IProfile } from "../../profile/types";
 import { User } from "../../users/types";
 import { IConversation } from "../types";
 import AttendeesList from "./AttendeesList";
@@ -20,7 +19,7 @@ interface ChatUIProps {
   location: any;
   history: any;
   users: User[];
-  connectedUser?: User 
+  conversations: IConversation[];
 
 }
 
@@ -36,29 +35,23 @@ class ChatUI extends React.Component<ChatUIProps, ChatUIState> {
   // temporaire pour avoir une conversation dans le state
   // TODO Ne pas faire plusieurs appel. Remonter l'appel dans la hierarchie de composants
   componentDidMount() {
-    const { connectedUser } = this.props;
-    if(!connectedUser) {return}
-    getConversations(connectedUser).then((conversations) => {
-      const conversationId = this.props.match.params.conversationId
-      let conversation = conversations.find(
-        conv => conv._id === conversationId
-      )
-      if (!conversation) {
-        const target = new URLSearchParams(this.props.location.search).get('target')
-        if(!target) {return history.push('/')}
-        conversation = {
-          _id: conversationId,
-          messages: [],
-          unseenMessages: 0,
-          updatedAt: new Date(),
-          targets: [
-            target
-          ]
-
-        }
+    const conversations = this.props.conversations;
+    const conversationId = this.props.match.params.conversationId;
+    let conversation = conversations.find(conv => conv._id === conversationId)
+    if (!conversation) {
+      const target = new URLSearchParams(this.props.location.search).get('target')
+      if (!target) { return history.push('/') }
+      conversation = {
+        _id: conversationId,
+        messages: [],
+        unseenMessages: 0,
+        updatedAt: new Date(),
+        targets: [
+          target
+        ]
       }
-      this.setState({ conversation: conversation });
-    });
+    }
+    this.setState({ conversation: conversation })
   }
   doSendMessage = async (message: string) => {
     const { conversation } = this.state;

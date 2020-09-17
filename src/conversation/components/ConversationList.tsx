@@ -1,7 +1,5 @@
 import { List } from "@material-ui/core";
 import React from "react";
-import { getConversations } from "../../api/methods";
-import { IProfile } from "../../profile/types";
 import { User } from "../../users/types";
 import { IConversation } from "../types";
 import ConversationListItem from "./ConversationListItem";
@@ -9,46 +7,19 @@ import ConversationListItem from "./ConversationListItem";
 
 interface ConversationListProps {
   users: User[];
-  connectedUser?: User;
-}
-
-interface ConversationListState {
   conversations: IConversation[];
-  connectedUser: IProfile
-
 }
 
 
-class ConversationList extends React.Component<
-  ConversationListProps,
-  ConversationListState
-> {
-  constructor(props: ConversationListProps) {
-    super(props);
-    this.state = {
-      conversations: [],
-      connectedUser: this.state.connectedUser
-      
-    };
-  }
-  componentDidMount() {
-    if (!this.props.connectedUser) { return }
-
-    getConversations(this.props.connectedUser)
-      .then(conversations => this.setState({ conversations: conversations }))
-      .catch(error => console.error(error));
-  }
+class ConversationList extends React.Component<ConversationListProps>{
 
   render() {
     return (
       <List>
-        {this.state.conversations.map((conversation, index) => (
-          <ConversationListItem
-            users={this.props.users}
-            conversation={conversation}
-            key={index}
-          />
-        ))}
+        {this.props.conversations.map((conversation, index) => <ConversationListItem
+          users={this.props.users}
+          conversation={conversation}
+          key={index} />)}
       </List>
     );
   }

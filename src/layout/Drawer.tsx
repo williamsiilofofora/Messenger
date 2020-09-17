@@ -12,6 +12,7 @@ import ConversationList from "../conversation/components/ConversationList";
 import ContactList from "../users/components/ContactList";
 import { User } from "../users/types";
 import { IDrawerContent } from "./types";
+import { IConversation } from '../conversation/types';
 
 interface AppDrawerProps {
   showDrawer: boolean;
@@ -20,6 +21,7 @@ interface AppDrawerProps {
   classes: any;
   users: User[];
   connectedUser?: User;
+  conversations: IConversation[];
 }
 
 const styles = (theme: Theme) =>
@@ -46,7 +48,7 @@ class AppDrawer extends React.Component<AppDrawerProps> {
     const { users } = this.props;
     const content = this.props.drawerContent === 'contacts' ?
       <ContactList connectedUser={this.props.connectedUser} users={users} />
-      : <ConversationList connectedUser={this.props.connectedUser} users={users} />
+      : <ConversationList conversations={this.props.conversations} users={users} />
     return this.props.showDrawer ? (
       <Drawer
         variant="persistent"

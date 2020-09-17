@@ -5,7 +5,8 @@ import AppDrawer, { drawerWidth } from "./Drawer";
 import AppMenu from "./AppMenu";
 import { IDrawerContent } from "./types";
 import { User } from "../users/types";
-import { getConnectedProfile, getUsers } from "../api/methods";
+import { getConnectedProfile, getConversations, getUsers } from '../api/methods';
+import { IConversation } from '../conversation/types';
 
 interface AppLayoutProps {
   classes: any;
@@ -16,6 +17,7 @@ interface AppLayoutState {
   drawerContent?: IDrawerContent;
   users: User[];
   profile?: User;
+  conversations: IConversation[];
 }
 
 const styles = (theme: Theme) =>
@@ -46,29 +48,30 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     this.state = {
       showDrawer: false,
       users: [],
+      conversations: []
     };
   }
 
   changeDrawerContent = (content: IDrawerContent) => {
-    this.setState({
-      showDrawer: !this.state.showDrawer,
-      drawerContent: content,
-    });
-
-    // TODO Indiquer le contenu au drawer
-  };
-
-  componentDidMount() {
-    getUsers().then((fetchedUsers) => {
-      this.setState({ users: fetchedUsers });
-    })
-    getConnectedProfile().then(profile => { this.setState({ profile }); })
+    this.setState({ showDrawer: true, drawerContent: content });
   }
-
   hideDrawer = () => {
     this.setState({ showDrawer: false });
-  };
+  }
 
+  async componentDidMount() {
+    getUsers().then((fetchedUsers) => {
+      this.setState({ users: fetchedUsers })
+    })
+    try {
+      const profile = await getConnectedProfile()
+      this.setState({ profile });
+      const conversations = await getConversations(profile)
+      this.setState({ conversations })
+    } catch (error) {
+      console.error(error);
+    }
+  }
   render() {
     const { classes } = this.props;
     const filteredClasses = [
@@ -84,9 +87,20 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
       <Fragment>
         <div className={filteredClasses}>
           <AppMenu changeDrawerContent={this.changeDrawerContent} />
-          <AppContent connectedUser={this.state.profile} users={this.state.users} />
+          <AppContent
+            conversations={this.state.conversations}
+            connectedUser={this.state.profile}
+            users={this.state.users}
+          />
         </div>
-        <AppDrawer connectedUser={this.state.profile} users={this.state.users} drawerContent={this.state.drawerContent} showDrawer={this.state.showDrawer} hideDrawer={this.hideDrawer} />
+        <AppDrawer
+          conversations={this.state.conversations}
+          connectedUser={this.state.profile}
+          users={this.state.users}
+          drawerContent={this.state.drawerContent}
+          showDrawer={this.state.showDrawer}
+          hideDrawer={this.hideDrawer}
+        />
       </Fragment>
     );
   }
