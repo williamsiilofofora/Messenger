@@ -5,7 +5,7 @@ import AppDrawer, { drawerWidth } from "./Drawer";
 import AppMenu from "./AppMenu";
 import { IDrawerContent } from "./types";
 import { User } from "../users/types";
-import { getUsers } from "../api/methods";
+import { getConnectedProfile, getUsers } from "../api/methods";
 
 interface AppLayoutProps {
   classes: any;
@@ -15,6 +15,7 @@ interface AppLayoutState {
   showDrawer: boolean;
   drawerContent?: IDrawerContent;
   users: User[];
+  profile?: User;
 }
 
 const styles = (theme: Theme) =>
@@ -60,7 +61,8 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
   componentDidMount() {
     getUsers().then((fetchedUsers) => {
       this.setState({ users: fetchedUsers });
-    });
+    })
+    getConnectedProfile().then(profile => { this.setState({ profile }); })
   }
 
   hideDrawer = () => {
@@ -82,14 +84,9 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
       <Fragment>
         <div className={filteredClasses}>
           <AppMenu changeDrawerContent={this.changeDrawerContent} />
-          <AppContent users={this.state.users} />
+          <AppContent connectedUser={this.state.profile} users={this.state.users} />
         </div>
-        <AppDrawer
-          users={this.state.users}
-          drawerContent={this.state.drawerContent}
-          showDrawer={this.state.showDrawer}
-          hideDrawer={this.hideDrawer}
-        />
+        <AppDrawer connectedUser={this.state.profile} users={this.state.users} drawerContent={this.state.drawerContent} showDrawer={this.state.showDrawer} hideDrawer={this.hideDrawer} />
       </Fragment>
     );
   }

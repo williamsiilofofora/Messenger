@@ -17,16 +17,17 @@ import {
 } from "../../utils/types";
 import { IProfile } from "../types";
 import history from "../../history";
+import { User } from "../../users/types";
 
-
-export interface IProfileFormState {
+interface IProfileFormState {
   status: "ready" | "success" | "error";
   fields: IProfileFormFields;
-  profile?: IProfile;
  
 }
-
-class MyProfile extends React.Component<{}, IProfileFormState> {
+interface IProfileFormProps {
+  connectedUser?: User
+}
+class MyProfile extends React.Component<IProfileFormProps, IProfileFormState> {
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -41,19 +42,13 @@ class MyProfile extends React.Component<{}, IProfileFormState> {
     };
   }
 
-  componentDidMount() {
-    //fetch connected profile
-    getConnectedProfile().then((profile) => {
-      this.setState({ profile });
-      this.resetProfile();
-    });
-  }
-
+ 
   resetProfile = () => {
-    if (this.state.profile) {
-      this.changeField("email")(this.state.profile.email);
-      this.changeField("firstname")(this.state.profile.firstname);
-      this.changeField("lastname")(this.state.profile.lastname);
+    const { connectedUser } = this.props;
+    if (connectedUser) {
+      this.changeField('email')(connectedUser.email);
+      this.changeField('firstname')(connectedUser.firstname);
+      this.changeField('lastname')(connectedUser.lastname);
       this.changeField("password")("");
       this.changeField("confirmation")("");
     }

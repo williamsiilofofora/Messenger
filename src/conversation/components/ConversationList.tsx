@@ -1,17 +1,21 @@
 import { List } from "@material-ui/core";
 import React from "react";
 import { getConversations } from "../../api/methods";
+import { IProfile } from "../../profile/types";
 import { User } from "../../users/types";
 import { IConversation } from "../types";
 import ConversationListItem from "./ConversationListItem";
 
 
 interface ConversationListProps {
-    users: User[];
+  users: User[];
+  
 }
 
 interface ConversationListState {
   conversations: IConversation[];
+  connectedUser: IProfile
+
 }
 
 
@@ -23,10 +27,12 @@ class ConversationList extends React.Component<
     super(props);
     this.state = {
       conversations: [],
+      connectedUser: this.state.connectedUser
+      
     };
   }
   componentDidMount() {
-    getConversations()
+    getConversations(this.state.connectedUser)
       .then((conversations) => this.setState({ conversations: conversations }))
       .catch((error) => console.error(error));
   }

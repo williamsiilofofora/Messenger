@@ -7,10 +7,13 @@ import { HomeScreen } from "./HomeScreen";
 import ChatUI from "../conversation/components/ChatUI";
 import { IConversation } from "../conversation/types";
 import { User } from "../users/types";
+import { IProfile } from "../profile/types";
 
 
 interface AppContentProps {
-  users: User []
+  users: User[],
+  connectedUser?: User
+  
 }
 class AppContent extends React.Component<AppContentProps> {
   render() {
@@ -20,7 +23,7 @@ class AppContent extends React.Component<AppContentProps> {
           path="/conversation/:conversationId"
           component={() => <ChatUI users={this.props.users} />}
         />
-        <Route path="/profile" component={MyProfile} />
+        <Route path='/profile' component={() => <MyProfile connectedUser={this.props.connectedUser} />} />
         <Route path="/login" component={LoginScreen} />
         <Route path="/" component={HomeScreen} />
       </Switch>

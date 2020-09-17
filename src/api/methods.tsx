@@ -1,8 +1,7 @@
 import { User } from "../users/types";
 import axios from 'axios';
 import { IProfile } from "../profile/types";
-import { Component } from "react";
-import { IConversation } from "../conversation/types";
+import { IConversation, IConversationMessage } from "../conversation/types";
 
 
 
@@ -76,55 +75,63 @@ export function register(
 //     window.location.href = "http://localhost:3001/";
 //   };
 // }
-export function getConversations(): Promise<IConversation[]> {
-  return Promise.resolve([
+export async function sendMessage(conversationId: string, targets: string[], content: string): Promise<IConversationMessage> {
+  const resp = await axios.post(
+    `${process.env.REACT_APP_BACKEND}/messages`,
     {
-      _id: "abcd",
-      targets: ["5f5a76272c5d371cb4178469", "5f5a75802c5d371cb4178468"],
-      updatedAt: new Date(),
-      unseenMessages: 0,
-      messages: [
-        {
-          _id: "1",
-          conversationId: "abcd",
-          createdAt: new Date(),
-          emitter: "5f5a76272c5d371cb4178469",
-          targets: ["5f5a75802c5d371cb4178468"],
-          content: "Coucou",
-        },
-        {
-          _id: "2",
-          conversationId: "abcd",
-          createdAt: new Date(),
-          emitter: "5f5a75802c5d371cb4178468",
-          targets: ["5f5a76272c5d371cb4178469"],
-          content: "Hey Comment tu vas ?",
-        },
-        {
-          _id: "3",
-          conversationId: "abcde",
-          createdAt: new Date(),
-          emitter: "5f5a76272c5d371cb4178469",
-          targets: ["5f5a75802c5d371cb4178468"],
-          content: "ReCoucou",
-        },
-        {
-          _id: "4",
-          conversationId: "abcde",
-          createdAt: new Date(),
-          emitter: "5f5a75802c5d371cb4178468",
-          targets: ["5f5a76272c5d371cb4178469"],
-          content: "Hey Comment tu vas aujourd'hui ?",
-        },
-        {
-          _id: "3",
-          conversationId: "abcde",
-          createdAt: new Date(),
-          emitter: "5f5a76272c5d371cb4178469",
-          targets: ["5f5a75802c5d371cb4178468"],
-          content: "Mouais on a vu mieu",
-        },
-      ],
+      conversationId: conversationId,
+      targets: targets,
+      content: content
     },
-  ]);
+    { withCredentials: true }
+  );
+  return resp.data;
+}
+export async function getConversation(conversationId: string): Promise<IConversation[]> {
+  const resp = await axios.get(`${process.env.REACT_APP_BACKEND}/messages/${conversationId}`, { withCredentials: true })
+  return resp.data;
+}
+export async function getConversations(
+  connectedUser: IProfile
+): Promise<IConversation[]> {
+  
+  const messages: IConversationMessage[]= await axios
+    .get(
+      `${process.env.REACT_APP_BACKEND}/messages`,
+      {
+        withCredentials: true
+      }
+    )
+    .then(resp => {
+      console.log(resp.data);
+      return resp.data;
+      
+
+    })
+  
+  const msgReducer = messages.reduce<{ [conversationId: string]: IConversationMessage[] }>(
+    (res, message) => ({
+      ...res,
+      [message.conversationId]: [...(res[message.conversationId] || []), message],
+    }),
+    {},
+  );
+  const conversations: IConversation[] = [];
+  for (const conversationId in msgReducer) {
+    const messages = msgReducer[conversationId];
+    const attendees = [...new Set(messages.flatMap(({ emitter, targets }) => [emitter, ...targets]))];
+    const targets = attendees.filter((id) => id !== connectedUser._id);
+    conversations.push({
+      _id: conversationId,
+      targets: targets,
+      messages: messages,
+      updatedAt: getLastMsgDate(messages),
+      unseenMessages: 0
+    })
+  }
+  return conversations;
+}	
+
+function getLastMsgDate(messages: IConversationMessage[]) {
+  return messages[messages.length - 1].createdAt;
 }
