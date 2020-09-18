@@ -11,6 +11,8 @@ import { ConnectButton } from "./ConnectButton";
 import { IDrawerContent } from "./types";
 
 import {IconButton, Tooltip } from "@material-ui/core";
+import { IProfile } from "../profile/types";
+import { IAppState } from "../appReducer";
 
 
 
@@ -25,6 +27,7 @@ import {IconButton, Tooltip } from "@material-ui/core";
 
 interface AppMenuProps {
   changeDrawerContent: (content: IDrawerContent) => void;
+  profile?: IProfile
 }
 export function AppMenu({ changeDrawerContent } : AppMenuProps) {
 
@@ -78,4 +81,7 @@ export function AppMenu({ changeDrawerContent } : AppMenuProps) {
   );
 }
 
+const mapStateToProps = ({ profile }: IAppState) => {
+
+}
 export default AppMenu;

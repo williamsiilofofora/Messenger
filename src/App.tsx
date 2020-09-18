@@ -5,6 +5,8 @@ import { yellow } from '@material-ui/core/colors';
 import { Router } from 'react-router';
 import history from './history';
 import AppLayout from './layout/AppLayout';
+import { Provider } from 'react-redux';
+import {store} from './store'
 
 const theme = createMuiTheme({
   palette: {
@@ -21,11 +23,13 @@ const theme = createMuiTheme({
 
 function App() {
   return (
+    <Provider store={store}>
     <Router history={history}>
       <ThemeProvider theme={theme}>
         <AppLayout />
       </ThemeProvider>
-    </Router>
+      </Router>
+    </Provider>
   );
 }
 
