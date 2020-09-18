@@ -3,5 +3,7 @@ export interface User {
   email: string;
   firstname: string;
   lastname: string;
-  
+  conversationsSeen?: {
+    [conversationId: string]: string;
+  };
 }

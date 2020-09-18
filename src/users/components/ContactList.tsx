@@ -1,7 +1,6 @@
 import React from 'react';
 import ContactListItem from './ContactListItem';
 import { User } from '../types';
-import { getUsers } from '../../api/methods';
 import { List, ListItem, Button } from '@material-ui/core';
 import history from '../../history';
 import { Link } from 'react-router-dom';

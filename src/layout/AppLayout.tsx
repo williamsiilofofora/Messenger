@@ -8,6 +8,7 @@ import { User } from "../users/types";
 import { getConnectedProfile, getConversations, getUsers } from '../api/methods';
 import { IConversation } from '../conversation/types';
 
+
 interface AppLayoutProps {
   classes: any;
 }
@@ -18,6 +19,7 @@ interface AppLayoutState {
   users: User[];
   profile?: User;
   conversations: IConversation[];
+  polling?: NodeJS.Timeout;
 }
 
 const styles = (theme: Theme) =>
@@ -59,18 +61,39 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     this.setState({ showDrawer: false });
   }
 
+  fetchConversations = async (profile?: User) => {
+    if (!profile) return;
+
+    const conversations = await getConversations(profile)
+    this.setState({ conversations })
+  }
+
   async componentDidMount() {
-    getUsers().then((fetchedUsers) => {
-      this.setState({ users: fetchedUsers })
-    })
+    getUsers()
+      .then(fetchedUsers => { this.setState({ users: fetchedUsers }) })
+      .catch(error => console.error(error));
     try {
       const profile = await getConnectedProfile()
       this.setState({ profile });
-      const conversations = await getConversations(profile)
-      this.setState({ conversations })
+      await this.fetchConversations(profile);
     } catch (error) {
       console.error(error);
     }
+   
+    this.setState({
+      polling: setInterval(() => {
+        try {
+          this.fetchConversations(this.state.profile)
+        } catch (error) {
+          console.error(error);
+        }
+      }, 10000)
+    })
+  }
+
+  componentWillUnmount() {
+    const { polling } = this.state;
+    if (polling) clearInterval(polling);
   }
   render() {
     const { classes } = this.props;

@@ -4,7 +4,6 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { Alert } from "@material-ui/lab";
 import React from "react";
-import { getConnectedProfile } from "../../api/methods";
 import CredentialsSection from "../../register/components/CredentialsSection";
 import IdentitySection from "../../register/components/IdentitySection";
 import { validateEmailField } from "../../register/utils/validateEmailField";
@@ -15,7 +14,6 @@ import {
   defaultPasswordField,
   IProfileFormFields,
 } from "../../utils/types";
-import { IProfile } from "../types";
 import history from "../../history";
 import { User } from "../../users/types";
 

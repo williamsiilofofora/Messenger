@@ -9,9 +9,12 @@ interface IChatInputState {
 interface IChatInputProps {
   conversationId: string;
   doSendMessage: (message: string) => void;
+  nameInput?: HTMLDivElement| null | undefined;
 }
 
 export default class ChatInput extends React.Component<IChatInputProps, IChatInputState> {
+ 
+  
   constructor(props: IChatInputProps){
     super(props);
     this.state = {

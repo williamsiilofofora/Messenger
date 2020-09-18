@@ -105,7 +105,7 @@ export async function getConversations(
       }
     )
     .then(resp => {
-      console.log(resp.data);
+      // console.log(resp.data);
       return resp.data;
       
 
@@ -135,6 +135,17 @@ export async function getConversations(
   return conversations;
 }	
 
+export async function patchConversationSeen(
+  conversationId: string
+): Promise<IProfile> {
+  const resp = await axios.patch(
+    `${process.env.REACT_APP_BACKEND}/profile/conversation-seen/${conversationId}`,
+    {},
+    { withCredentials: true }
+  );
+  return resp.data;
+}
+ 
 function getLastMsgDate(messages: IConversationMessage[]) {
   return messages[messages.length - 1].createdAt;
 }

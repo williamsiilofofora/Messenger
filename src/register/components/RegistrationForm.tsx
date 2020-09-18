@@ -9,7 +9,6 @@ import {
   IProfileFormFields,
 } from "../../utils/types";
 import IdentitySection from "./IdentitySection";
-import { validateRequiredField } from "../../utils/validateRequiredField";
 import CredentialsSection from "./CredentialsSection";
 import ProfileFormCheck from "./ProfileFormCheck";
 import { validateEmailField } from "../utils/validateEmailField";
