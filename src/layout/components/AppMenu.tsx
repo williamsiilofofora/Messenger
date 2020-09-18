@@ -8,12 +8,13 @@ import React, { Fragment } from "react";
 import { ProfileButton } from "./ProfileButton";
 
 import { ConnectButton } from "./ConnectButton";
-import { IDrawerContent } from "./types";
+import { IDrawerContent } from "../types";
 
 import {IconButton, Tooltip } from "@material-ui/core";
-import { IProfile } from "../profile/types";
-import { IAppState } from "../appReducer";
+import { IProfile } from "../../profile/types";
+import { IAppState } from "../../appReducer";
 import { connect } from "react-redux";
+import { changeDrawerContent } from "../actions/changeDrawerContentAction";
 
 
 
@@ -85,4 +86,9 @@ export function AppMenu({ changeDrawerContent, profile } : AppMenuProps) {
 const mapStateToProps = ({ profile }: IAppState) => ({
   profile: profile.connectedProfile
 })
-export default connect(mapStateToProps)(AppMenu);
+const mapDispatchToProps = (dispatch: any) => ({
+  changeDrawerContent: (content: IDrawerContent) =>
+    dispatch(changeDrawerContent(content)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppMenu);

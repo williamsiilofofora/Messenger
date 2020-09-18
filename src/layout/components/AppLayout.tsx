@@ -3,10 +3,11 @@ import React, { Fragment } from "react";
 import AppContent from "./AppContent";
 import AppDrawer, { drawerWidth } from "./Drawer";
 import AppMenu from "./AppMenu";
-import { IDrawerContent } from "./types";
-import { User } from "../users/types";
-import { getConnectedProfile, getConversations, getUsers } from '../api/methods';
-import { IConversation } from '../conversation/types';
+import { IDrawerContent } from "../types";
+import { User } from "../../users/types";
+import { getConnectedProfile, getConversations, getUsers } from '../../api/methods';
+import { IConversation } from '../../conversation/types';
+import { changeDrawerContent } from "../actions/changeDrawerContentAction";
 
 
 interface AppLayoutProps {
@@ -109,7 +110,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     return (
       <Fragment>
         <div className={filteredClasses}>
-          <AppMenu changeDrawerContent={this.changeDrawerContent} />
+          <AppMenu />
           <AppContent
             conversations={this.state.conversations}
             connectedUser={this.state.profile}

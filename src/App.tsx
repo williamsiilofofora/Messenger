@@ -4,7 +4,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { yellow } from '@material-ui/core/colors';
 import { Router } from 'react-router';
 import history from './history';
-import AppLayout from './layout/AppLayout';
+import AppLayout from './layout/components/AppLayout';
 import { Provider } from 'react-redux';
 import {store} from './store'
 

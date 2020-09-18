@@ -1,11 +1,11 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import MyProfile from "../profile/components/MyProfile";
-import LoginScreen from "../Login/components/LoginScreen";
+import MyProfile from "../../profile/components/MyProfile";
+import LoginScreen from "../../Login/components/LoginScreen";
 import { HomeScreen } from "./HomeScreen";
-import ChatUI from "../conversation/components/ChatUI";
-import { IConversation } from "../conversation/types";
-import { User } from "../users/types";
+import ChatUI from "../../conversation/components/ChatUI";
+import { IConversation } from "../../conversation/types";
+import { User } from "../../users/types";
 
 
 
