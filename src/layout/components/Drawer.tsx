@@ -13,6 +13,9 @@ import ContactList from "../../users/components/ContactList";
 import { User } from "../../users/types";
 import { IDrawerContent } from "../types";
 import { IConversation } from '../../conversation/types';
+import { connect } from "react-redux";
+import { IAppState } from "../../appReducer";
+import { changeDrawerContent } from "../actions/changeDrawerContentAction";
 
 interface AppDrawerProps {
   showDrawer: boolean;
@@ -68,6 +71,20 @@ class AppDrawer extends React.Component<AppDrawerProps> {
     ) : null;
   }
 }
-
-export default withStyles(styles)(AppDrawer);
 export const drawerWidth = 500;
+const mapStateToProps = ({ layout }: IAppState) => ({
+  showDrawer: layout.showDrawer,
+  drawerContent: layout.drawerContent,
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  hideDrawer: () => dispatch(changeDrawerContent(undefined, false)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(AppDrawer)); 
+
+
+

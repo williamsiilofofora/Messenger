@@ -7,6 +7,6 @@ export function changeDrawerContentCase(
   return {
     ...state,
     drawerContent: action.content,
-    showDrawer: true,
+    showDrawer: action.showDrawer,
   };
 }

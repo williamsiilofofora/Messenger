@@ -6,11 +6,13 @@ import {
 
 // -- Définition de l'action --
 export function changeDrawerContent(
-  content: IDrawerContent
+  content?: IDrawerContent,
+  showDrawer: boolean = true
 ): IChangeDrawerContentAction {
   return {
     type: CHANGE_DRAWER_CONTENT,
     content: content,
+    showDrawer: showDrawer,
   };
 }
 
