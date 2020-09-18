@@ -20,7 +20,7 @@ interface ChatUIProps {
   history: any;
   users: User[];
   conversations: IConversation[];
-
+  connectedUser?: User;
 }
 
 class ChatUI extends React.Component<ChatUIProps, ChatUIState> {
@@ -87,6 +87,7 @@ class ChatUI extends React.Component<ChatUIProps, ChatUIState> {
               conversationSeen={this.conversationSeen}
               messages={this.state.conversation.messages}
               users={this.props.users}
+              connectedUser={this.props.connectedUser}
             />
             <ChatInput
               doSendMessage={this.doSendMessage}

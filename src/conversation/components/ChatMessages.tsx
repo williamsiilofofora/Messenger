@@ -7,6 +7,7 @@ export interface IChatMessagesProps {
   messages: IConversationMessage[];
   users: User[];
   conversationSeen: () => void;
+  connectedUser?: User;
 }
 
 export default class ChatMessages extends React.Component<IChatMessagesProps> {
@@ -27,7 +28,7 @@ export default class ChatMessages extends React.Component<IChatMessagesProps> {
 
   render() {
     return this.props.messages.map((message, index) => (
-      <ChatMessage key={index} message={message} users={this.props.users} />
+      <ChatMessage key={index} message={message} users={this.props.users} connectedUser={this.props.connectedUser}/>
     ));
   }
 }

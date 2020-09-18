@@ -52,3 +52,11 @@
 .msg {
   border: 1px solid grey;
 }
+.blue {
+  background-color: rgb(30, 104, 243);
+  color:white
+}
+.green {
+  background-color: green;
+  color: white
+}

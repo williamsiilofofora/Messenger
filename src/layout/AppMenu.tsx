@@ -13,6 +13,7 @@ import { IDrawerContent } from "./types";
 import {IconButton, Tooltip } from "@material-ui/core";
 import { IProfile } from "../profile/types";
 import { IAppState } from "../appReducer";
+import { connect } from "react-redux";
 
 
 
@@ -29,7 +30,7 @@ interface AppMenuProps {
   changeDrawerContent: (content: IDrawerContent) => void;
   profile?: IProfile
 }
-export function AppMenu({ changeDrawerContent } : AppMenuProps) {
+export function AppMenu({ changeDrawerContent, profile } : AppMenuProps) {
 
   return (
     <Fragment>
@@ -46,11 +47,11 @@ export function AppMenu({ changeDrawerContent } : AppMenuProps) {
               <Typography variant="h3">flint.</Typography>
             </Toolbar>
           </Grid>
-          <Grid item>
+          { profile ? <Grid item>
             <Toolbar>
-              <h1>Nom de l'utilisateur</h1>
+              <h1>{profile.firstname}{profile.lastname}</h1>
             </Toolbar>
-          </Grid>
+          </Grid> : null }
           <Grid item>
             <Toolbar>
            <Tooltip title="Conversations">
@@ -81,7 +82,7 @@ export function AppMenu({ changeDrawerContent } : AppMenuProps) {
   );
 }
 
-const mapStateToProps = ({ profile }: IAppState) => {
-
-}
-export default AppMenu;
+const mapStateToProps = ({ profile }: IAppState) => ({
+  profile: profile.connectedProfile
+})
+export default connect(mapStateToProps)(AppMenu);

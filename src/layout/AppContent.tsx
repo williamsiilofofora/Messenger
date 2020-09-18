@@ -22,7 +22,8 @@ class AppContent extends React.Component<AppContentProps> {
           path='/conversation/:conversationId'
           component={() => <ChatUI
             conversations={this.props.conversations}
-            users={this.props.users} />} />
+            users={this.props.users}
+            connectedUser={this.props.connectedUser}/>} />
         <Route
           path='/profile'
           component={() => <MyProfile
