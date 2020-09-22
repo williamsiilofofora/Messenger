@@ -10,7 +10,6 @@ import { ArrowBackIos } from "@material-ui/icons";
 import React from "react";
 import ConversationList from "../../conversation/components/ConversationList";
 import ContactList from "../../users/components/ContactList";
-import { User } from "../../users/types";
 import { IDrawerContent } from "../types";
 import { IConversation } from '../../conversation/types';
 import { connect } from "react-redux";
@@ -18,12 +17,12 @@ import { IAppState } from "../../appReducer";
 import { changeDrawerContent } from "../actions/changeDrawerContentAction";
 
 
+
 interface AppDrawerProps {
   showDrawer: boolean;
   drawerContent?: IDrawerContent;
   hideDrawer: () => void;
   classes: any;
-  connectedUser?: User;
   conversations: IConversation[];
 }
 
@@ -49,7 +48,7 @@ const styles = (theme: Theme) =>
 class AppDrawer extends React.Component<AppDrawerProps> {
   render() {
     const content = this.props.drawerContent === 'contacts' ?
-      <ContactList connectedUser={this.props.connectedUser} />
+      <ContactList />
       : <ConversationList conversations={this.props.conversations} />
     return this.props.showDrawer ? (
       <Drawer
@@ -72,7 +71,7 @@ class AppDrawer extends React.Component<AppDrawerProps> {
 }
 export const drawerWidth = 500;
 
-const mapStateToProps = ({ layout }: IAppState) => ({
+const mapStateToProps = ({ layout, profile }: IAppState) => ({
   showDrawer: layout.showDrawer,
   drawerContent: layout.drawerContent,
 });

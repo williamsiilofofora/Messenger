@@ -7,7 +7,6 @@ import {
 } from "@material-ui/core";
 import { AvatarGroup } from "@material-ui/lab";
 import React, { Fragment } from "react";
-import { User } from "../../users/types";
 import { IConversation } from "../types";
 import history from '../../history';
 import { IProfile } from "../../profile/types";
@@ -37,7 +36,7 @@ class ConversationListItem extends React.Component<ConversationListItemProps> {
     </Fragment>
   }
 
-  getUserFormList = (id: string) =>
+getUserFormList = (id: string) =>
     this.props.users.find((user) => user._id === id);
 }
 

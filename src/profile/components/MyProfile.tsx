@@ -15,7 +15,9 @@ import {
   IProfileFormFields,
 } from "../../utils/types";
 import history from "../../history";
-import { User } from "../../users/types";
+import { IProfile } from "../types";
+import { IAppState } from "../../appReducer";
+import { connect } from "react-redux";
 
 interface IProfileFormState {
   status: "ready" | "success" | "error";
@@ -23,7 +25,7 @@ interface IProfileFormState {
  
 }
 interface IProfileFormProps {
-  connectedUser?: User
+  connectedUser?: IProfile
 }
 class MyProfile extends React.Component<IProfileFormProps, IProfileFormState> {
   constructor(props: {}) {
@@ -192,5 +194,8 @@ class MyProfile extends React.Component<IProfileFormProps, IProfileFormState> {
     );
   }
 }
+const mapStateToProps = ({ profile }: IAppState) => ({
+  connectedUser: profile.connectedProfile,
+});
+export default connect(mapStateToProps)(MyProfile);
 
-export default MyProfile;

@@ -1,23 +1,19 @@
 import { List } from "@material-ui/core";
 import React from "react";
-import { User } from "../../users/types";
 import { IConversation } from "../types";
 import ConversationListItem from "./ConversationListItem";
 
 
 interface ConversationListProps {
-
   conversations: IConversation[];
 }
 
 
 class ConversationList extends React.Component<ConversationListProps>{
-
   render() {
     return (
       <List>
-        {this.props.conversations.map((conversation, index) => <ConversationListItem
-          
+        {this.props.conversations.map((conversation, index) => <ConversationListItem          
           conversation={conversation}
           key={index} />)}
       </List>

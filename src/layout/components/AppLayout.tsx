@@ -4,11 +4,13 @@ import AppContent from "./AppContent";
 import AppDrawer, { drawerWidth } from "./Drawer";
 import AppMenu from "./AppMenu";
 import { User } from "../../users/types";
-import { getConnectedProfile, getConversations, getUsers } from '../../api/methods';
+import { getConnectedProfile, getConversations} from '../../api/methods';
 import { IConversation } from '../../conversation/types';
 import { IAppState } from "../../appReducer";
 import { connect } from "react-redux";
 import { makeFetchUsers } from "../../profile/actions/makeFetchUsers";
+import { setConversationStateAction } from "../../conversation/actions/setConversationStateAction";
+
 
 
 
@@ -16,12 +18,14 @@ interface AppLayoutProps {
   classes: any;
   showDrawer: boolean;
   makeFetchUser: () => void;
+  setConversationState: (conversations: IConversation[]) => void;
+  conversations: IConversation[];
 }
 
 interface AppLayoutState {
   profile?: User;
-  conversations: IConversation[];
   polling?: NodeJS.Timeout;
+  
 }
 
 const styles = (theme: Theme) =>
@@ -50,16 +54,15 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
   constructor(props: AppLayoutProps) {
     super(props);
     this.state = {
-      conversations: []
     };
   }
 
-
+// dispatch conversations
   fetchConversations = async (profile?: User) => {
     if (!profile) return;
 
     const conversations = await getConversations(profile)
-    this.setState({ conversations })
+    this.props.setConversationState(conversations)
   }
 
   async componentDidMount() {
@@ -106,25 +109,28 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
         <div className={filteredClasses}>
           <AppMenu />
           <AppContent
-            conversations={this.state.conversations}
+            conversations={this.props.conversations}
             connectedUser={this.state.profile}
           />
         </div>
         <AppDrawer
-          conversations={this.state.conversations}
-          connectedUser={this.state.profile}        
+          conversations={this.props.conversations}     
         />
       </Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ layout }: IAppState) => ({
+const mapStateToProps = ({ layout , conversations}: IAppState) => ({
   showDrawer: layout.showDrawer,
+  conversations : conversations.conversations
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   makeFetchUser: () => dispatch(makeFetchUsers()),
+  // makeFetchConversation: () => dispatch(makeFetchConversationAction()),
+  setConversationState: (conversations: IConversation[]) =>
+    dispatch(setConversationStateAction(conversations)),
 });
 export default connect(
   mapStateToProps,

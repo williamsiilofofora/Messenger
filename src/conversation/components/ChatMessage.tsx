@@ -29,9 +29,6 @@ class ChatMessage extends React.Component<IChatMessageProps> {
       return (
         <div>
           <div className="msg">
-            {/* {console.log(this.props.message)} */}
-            {console.log(this.props.message.emitter)}
-            {console.log(this.props.message.targets)}
             <div>
               {this.users?.lastname} {this.users?.firstname}
               <span>{this.props?.message.createdAt}</span>

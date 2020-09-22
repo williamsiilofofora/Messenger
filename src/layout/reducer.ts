@@ -9,6 +9,7 @@ export function layout(
   switch (action.type) {
     case CHANGE_DRAWER_CONTENT:
       return changeDrawerContentCase(state, action);
+
     default:
       return state;
   }

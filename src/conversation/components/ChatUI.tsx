@@ -10,7 +10,7 @@ import history from '../../history';
 
 
 interface ChatUIState {
-  conversation?: IConversation;
+ conversation?: IConversation; 
 
 }
 

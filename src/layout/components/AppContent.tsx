@@ -26,7 +26,7 @@ class AppContent extends React.Component<AppContentProps> {
         <Route
           path='/profile'
           component={() => <MyProfile
-          connectedUser={this.props.connectedUser} />} />
+           />} />
         <Route
           path="/login"
           component={LoginScreen} />
