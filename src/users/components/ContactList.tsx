@@ -4,12 +4,15 @@ import { User } from '../types';
 import { List, ListItem, Button } from '@material-ui/core';
 import history from '../../history';
 import { Link } from 'react-router-dom';
+import { IProfile } from '../../profile/types';
+import { connect } from 'react-redux';
+import { IAppState } from '../../appReducer';
 // import { TextField, Button, Container, Box, Grid } from "@material-ui/core";
 
 
 
 interface ContactListProps {
-  users: User[];
+  users: IProfile[];
   connectedUser?: User;
 }
 
@@ -40,4 +43,7 @@ class ContactList extends React.Component<ContactListProps> {
   }
 }
 
-export default ContactList;
+const mapStateToProps = ({ profile }: IAppState) => ({
+  users: profile.list,
+});
+export default connect(mapStateToProps)(ContactList);

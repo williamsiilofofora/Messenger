@@ -17,12 +17,12 @@ import { connect } from "react-redux";
 import { IAppState } from "../../appReducer";
 import { changeDrawerContent } from "../actions/changeDrawerContentAction";
 
+
 interface AppDrawerProps {
   showDrawer: boolean;
   drawerContent?: IDrawerContent;
   hideDrawer: () => void;
   classes: any;
-  users: User[];
   connectedUser?: User;
   conversations: IConversation[];
 }
@@ -48,10 +48,9 @@ const styles = (theme: Theme) =>
 
 class AppDrawer extends React.Component<AppDrawerProps> {
   render() {
-    const { users } = this.props;
     const content = this.props.drawerContent === 'contacts' ?
-      <ContactList connectedUser={this.props.connectedUser} users={users} />
-      : <ConversationList conversations={this.props.conversations} users={users} />
+      <ContactList connectedUser={this.props.connectedUser} />
+      : <ConversationList conversations={this.props.conversations} />
     return this.props.showDrawer ? (
       <Drawer
         variant="persistent"
@@ -72,6 +71,7 @@ class AppDrawer extends React.Component<AppDrawerProps> {
   }
 }
 export const drawerWidth = 500;
+
 const mapStateToProps = ({ layout }: IAppState) => ({
   showDrawer: layout.showDrawer,
   drawerContent: layout.drawerContent,

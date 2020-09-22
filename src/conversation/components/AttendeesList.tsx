@@ -6,13 +6,17 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import * as React from "react";
-import { User } from "../../users/types";
+import { connect } from "react-redux";
+import { IAppState } from "../../appReducer";
+import { IProfile } from "../../profile/types";
+
 
 interface IAttendeesListProps {
-  attendees: User[];
+  attendees: IProfile[];
+  targets?: string[]
 }
 
-export default class AttendeesList extends React.Component<
+class AttendeesList extends React.Component<
   IAttendeesListProps
 > {
   public render() {
@@ -32,3 +36,7 @@ export default class AttendeesList extends React.Component<
     );
   }
 }
+const mapStateToProps = ({ profile }: IAppState, { targets }: IAttendeesListProps) => ({
+  attendees: profile.list.filter(user=> targets?.includes(user._id))
+})
+export default connect(mapStateToProps)(AttendeesList);

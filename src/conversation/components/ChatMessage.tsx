@@ -1,14 +1,18 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { IAppState } from "../../appReducer";
+import { IProfile } from "../../profile/types";
 import { User } from "../../users/types";
 import { IConversationMessage } from "../types";
 
+
 export interface IChatMessageProps {
   message: IConversationMessage;
-  users: User[];
+  users: IProfile[];
   connectedUser?: User;
 }
 
-export default class ChatMessage extends React.Component<IChatMessageProps> {
+class ChatMessage extends React.Component<IChatMessageProps> {
   users = this.props.users.find(user => user._id === this.props.message.emitter)
 
  
@@ -39,3 +43,9 @@ export default class ChatMessage extends React.Component<IChatMessageProps> {
       )
   }
 }
+
+const mapStateToProps = ({ profile }: IAppState) => ({
+  users: profile.list,
+});
+
+export default connect(mapStateToProps)(ChatMessage);

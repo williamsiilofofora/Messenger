@@ -10,7 +10,7 @@ import { User } from "../../users/types";
 
 
 interface AppContentProps {
-  users: User[],
+
   connectedUser?: User,
   conversations: IConversation[];  
 }
@@ -22,12 +22,11 @@ class AppContent extends React.Component<AppContentProps> {
           path='/conversation/:conversationId'
           component={() => <ChatUI
             conversations={this.props.conversations}
-            users={this.props.users}
             connectedUser={this.props.connectedUser}/>} />
         <Route
           path='/profile'
           component={() => <MyProfile
-            connectedUser={this.props.connectedUser} />} />
+          connectedUser={this.props.connectedUser} />} />
         <Route
           path="/login"
           component={LoginScreen} />

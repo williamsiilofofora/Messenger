@@ -6,7 +6,7 @@ import { IConversation, IConversationMessage } from "../conversation/types";
 
 
 // function liste des utilisateur
-export function getUsers(): Promise<User[]> {
+export function getUsers(): Promise<IProfile[]> {
   return axios
     .get(
       `${process.env.REACT_APP_BACKEND}/profile`,
