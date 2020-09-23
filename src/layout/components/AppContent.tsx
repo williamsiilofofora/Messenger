@@ -4,25 +4,18 @@ import MyProfile from "../../profile/components/MyProfile";
 import LoginScreen from "../../Login/components/LoginScreen";
 import { HomeScreen } from "./HomeScreen";
 import ChatUI from "../../conversation/components/ChatUI";
-import { IConversation } from "../../conversation/types";
-import { User } from "../../users/types";
 
 
 
-interface AppContentProps {
 
-  connectedUser?: User,
-  conversations: IConversation[];  
-}
-class AppContent extends React.Component<AppContentProps> {
+
+class AppContent extends React.Component {
   render() {
     return (
       <Switch>
         <Route
           path='/conversation/:conversationId'
-          component={() => <ChatUI
-            conversations={this.props.conversations}
-            connectedUser={this.props.connectedUser}/>} />
+          component={ChatUI} />
         <Route
           path='/profile'
           component={() => <MyProfile

@@ -1,3 +1,3 @@
 export function defaultConversationState() {
-  return { conversations: [] };
+  return { list: [] };
 }

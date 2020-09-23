@@ -19,7 +19,7 @@ export function getUsers(): Promise<IProfile[]> {
     })
 }
 // function de recuperation de profile User
-export function getConnectedProfile(): Promise<User> {
+export function getConnectedProfile(): Promise<IProfile> {
   return axios
     .get(
       `${process.env.REACT_APP_BACKEND}/profile/me`,

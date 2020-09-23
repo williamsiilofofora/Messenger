@@ -1,5 +1,7 @@
 import { List } from "@material-ui/core";
 import React from "react";
+import { connect } from "react-redux";
+import { IAppState } from "../../appReducer";
 import { IConversation } from "../types";
 import ConversationListItem from "./ConversationListItem";
 
@@ -20,4 +22,7 @@ class ConversationList extends React.Component<ConversationListProps>{
     );
   }
 }
-export default ConversationList;
+const mapStateToProps = ({ conversation }: IAppState) => ({
+  conversations: conversation.list,
+});
+export default connect(mapStateToProps)(ConversationList); 

@@ -7,6 +7,8 @@ import { IConversation } from "../types";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 import history from '../../history';
+import { IAppState } from "../../appReducer";
+import { connect } from "react-redux";
 
 
 interface ChatUIState {
@@ -106,4 +108,7 @@ class ChatUI extends React.Component<ChatUIProps, ChatUIState> {
   }
 }
 
-export default withRouter(ChatUI);
+const mapStateToProps = ({ conversation }: IAppState) => ({
+  conversations: conversation.list,
+});
+export default connect(mapStateToProps)(withRouter(ChatUI));
