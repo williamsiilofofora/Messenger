@@ -8,6 +8,7 @@ import {Alert} from "@material-ui/lab"
 import { connect } from 'react-redux';
 import { updateConnectedProfile } from '../../profile/actions/updateConnectedProfileAction';
 import { IProfile } from '../../profile/types';
+import { makeInitApp } from "../../layout/actions/makeInitApp";
 
 interface LoginFormState {
     email: IFormField,
@@ -17,6 +18,7 @@ interface LoginFormState {
 
 interface LoginFormProps {
   updateIdentity: (profile: IProfile) => void;
+  makeInitApp: () => void;
 }
 class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   constructor(props: LoginFormProps) {
@@ -31,6 +33,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     login(this.state.email.value, this.state.password.value)
       .then((profile) => {
         // this.setState({status: 'success'})
+        this.props.makeInitApp();
         this.props.updateIdentity(profile);
         history.push("/")
       })
@@ -125,7 +128,9 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 }
 // const mapStateToProps = () => ({});
 const mapDispatchToProps = (dispatch: any) => ({
-  updateIdentity: (profile: IProfile) => dispatch(updateConnectedProfile(profile))
+  updateIdentity: (profile: IProfile) =>
+    dispatch(updateConnectedProfile(profile)),
+  makeInitApp: () => dispatch(makeInitApp()),
 });
 
 // export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -5,25 +5,10 @@ import AppDrawer, { drawerWidth } from "./Drawer";
 import AppMenu from "./AppMenu";
 import { IAppState } from "../../appReducer";
 import { connect } from "react-redux";
-import { makeFetchUsers } from "../../profile/actions/makeFetchUsers";
-import { makeFetchConversation } from "../../conversation/actions/makeFetchConversations";
-import { makeStartSocket} from '../../socket/actions/makeStartSocket'
-
-
-
 
 interface AppLayoutProps {
   classes: any;
   showDrawer: boolean;
-  makeFetchUser: () => void;
-  makeFetchConversation: () => void;
-  makeStartSocket: () => void;
-}
-
-interface AppLayoutState {
- 
-  polling?: NodeJS.Timeout;
-  
 }
 
 const styles = (theme: Theme) =>
@@ -48,36 +33,7 @@ const styles = (theme: Theme) =>
     },
   });
 
-class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
-  constructor(props: AppLayoutProps) {
-    super(props);
-    this.state = {
-    };
-  }
-
-// dispatch conversations
-  // fetchConversations = async (profile?: User) => {
-  //   if (!profile) return;
-
-  //   const conversations = await getConversations(profile)
-  //   this.props.setConversationState(conversations)
-  // }
-
-  async componentDidMount() {
-    this.props.makeFetchUser();
-    this.props.makeFetchConversation();
-    this.props.makeStartSocket();
-    this.setState({
-      polling: setInterval(() => {
-        this.props.makeFetchConversation();
-      }, 10000)
-    })
-  }
-
-  componentWillUnmount() {
-    const { polling } = this.state;
-    if (polling) clearInterval(polling);
-  }
+class AppLayout extends React.Component<AppLayoutProps> {
   render() {
         const { classes, showDrawer } = this.props;
         const filteredClasses = [
@@ -107,14 +63,4 @@ const mapStateToProps = ({ layout , conversation, profile}: IAppState) => ({
   
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-  makeFetchUser: () => dispatch(makeFetchUsers()),
-  makeFetchConversation: () => dispatch(makeFetchConversation()),
-  makeStartSocket: () => dispatch(makeStartSocket())
-  // setConversationState: (conversations: IConversation[]) =>
-  //   dispatch(setConversationStateAction(conversations)),
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(AppLayout)); 
+export default connect(mapStateToProps)(withStyles(styles)(AppLayout));

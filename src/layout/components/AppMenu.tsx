@@ -50,7 +50,7 @@ export function AppMenu({ changeDrawerContent, profile } : AppMenuProps) {
           </Grid>
           { profile ? <Grid item>
             <Toolbar>
-              <h1>{profile.firstname}{profile.lastname}</h1>
+              <h1>{profile.firstname} {profile.lastname}</h1>
             </Toolbar>
           </Grid> : null }
           <Grid item>

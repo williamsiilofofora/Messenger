@@ -27,7 +27,7 @@ export default class ChatMessages extends React.Component<IChatMessagesProps> {
 
   render() {
     return this.props.messages.map((message, index) => (
-      <ChatMessage key={index} message={message} connectedUser={this.props.connectedUser}/>
+      <ChatMessage key={index} message={message} />
     ));
   }
 }
