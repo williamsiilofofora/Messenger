@@ -3,11 +3,11 @@ import React, { Fragment } from "react";
 import AppContent from "./AppContent";
 import AppDrawer, { drawerWidth } from "./Drawer";
 import AppMenu from "./AppMenu";
-import { IConversation } from '../../conversation/types';
 import { IAppState } from "../../appReducer";
 import { connect } from "react-redux";
 import { makeFetchUsers } from "../../profile/actions/makeFetchUsers";
 import { makeFetchConversation } from "../../conversation/actions/makeFetchConversations";
+import { makeStartSocket} from '../../socket/actions/makeStartSocket'
 
 
 
@@ -17,7 +17,7 @@ interface AppLayoutProps {
   showDrawer: boolean;
   makeFetchUser: () => void;
   makeFetchConversation: () => void;
-  
+  makeStartSocket: () => void;
 }
 
 interface AppLayoutState {
@@ -66,6 +66,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
   async componentDidMount() {
     this.props.makeFetchUser();
     this.props.makeFetchConversation();
+    this.props.makeStartSocket();
     this.setState({
       polling: setInterval(() => {
         this.props.makeFetchConversation();
@@ -109,6 +110,7 @@ const mapStateToProps = ({ layout , conversation, profile}: IAppState) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   makeFetchUser: () => dispatch(makeFetchUsers()),
   makeFetchConversation: () => dispatch(makeFetchConversation()),
+  makeStartSocket: () => dispatch(makeStartSocket())
   // setConversationState: (conversations: IConversation[]) =>
   //   dispatch(setConversationStateAction(conversations)),
 });

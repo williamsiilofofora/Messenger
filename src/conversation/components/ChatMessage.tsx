@@ -34,7 +34,7 @@ class ChatMessage extends React.Component<IChatMessageProps> {
               <span>{this.props?.message.createdAt}</span>
             </div>
             {div}
-            {/* <div>{this.props.message.content}</div> */}
+            <div>{this.props.message.content}</div>
           </div>
         </div>
       )

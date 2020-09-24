@@ -1,7 +1,7 @@
 export interface IConversationState {
   list: IConversation[];
 }
-export type IConversationAction = UpdateConversationListAction;
+
 
 export const UPDATE_CONVERSATION_LIST = "UPDATE_CONVERSATION_LIST";
 export interface UpdateConversationListAction {
@@ -25,3 +25,13 @@ export interface IConversation {
   unseenMessages: number;
   messages: IConversationMessage[];
 }
+
+export const UPDATE_CONVERSATION_WITH_MESSAGE = "UPDATE_CONVERSATION_WITH_MESSAGE";
+export interface UpdateConversationWithNewMessageAction {
+  // conversation: IConversation[];
+  type: typeof UPDATE_CONVERSATION_WITH_MESSAGE;
+  message: IConversationMessage;
+}
+export type IConversationAction =
+  | UpdateConversationListAction
+  | UpdateConversationWithNewMessageAction;

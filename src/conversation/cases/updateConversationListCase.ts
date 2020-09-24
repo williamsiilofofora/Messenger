@@ -1,4 +1,4 @@
-import { IConversationState, UpdateConversationListAction } from "../types";
+import { IConversationState, UpdateConversationListAction} from "../types";
 
 export function updateConversationListCase(
   state: IConversationState,

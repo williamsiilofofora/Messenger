@@ -1,5 +1,7 @@
 import { connect } from "../../api/socket_methods";
 import { IAppState } from "../../appReducer";
+import { updateConversationWithNewMessage } from "../../conversation/actions/updateConversationWithNewMessage";
+
 import { IConversationMessage } from "../../conversation/types";
 
 export function makeStartSocket() {
