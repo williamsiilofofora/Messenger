@@ -1,20 +1,20 @@
 import AppBar from "@material-ui/core/AppBar";
 import Grid from "@material-ui/core/Grid";
 import Forum from "@material-ui/icons/Forum";
-import ContactsIcon from "@material-ui/icons/Contacts";
+
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import React, { Fragment } from "react";
 import { ProfileButton } from "./ProfileButton";
 
-import { ConnectButton } from "./ConnectButton";
 import { IDrawerContent } from "../types";
-
-import {IconButton, Tooltip } from "@material-ui/core";
+import { AccountCircle, Contacts, ForumSharp } from "@material-ui/icons";
+import {IconButton } from "@material-ui/core";
 import { IProfile } from "../../profile/types";
 import { IAppState } from "../../appReducer";
 import { connect } from "react-redux";
 import { changeDrawerContent } from "../actions/changeDrawerContentAction";
+import { Link } from "react-router-dom";
 
 
 
@@ -32,7 +32,16 @@ interface AppMenuProps {
   profile?: IProfile
 }
 export function AppMenu({ changeDrawerContent, profile } : AppMenuProps) {
-
+const disconnectNavbar = (
+  <Toolbar>
+    <Link to="/login">
+      <IconButton color="default" aria-label="profile">
+        {" "}
+        <AccountCircle fontSize="large" />{" "}
+      </IconButton>{" "}
+    </Link>
+  </Toolbar>
+);
   return (
     <Fragment>
       <AppBar position="static" style={{ height: "10vh" }}>
@@ -48,34 +57,35 @@ export function AppMenu({ changeDrawerContent, profile } : AppMenuProps) {
               <Typography variant="h3">MESSENGER.</Typography>
             </Toolbar>
           </Grid>
-          { profile ? <Grid item>
-            <Toolbar>
-              <h1>{profile.firstname} {profile.lastname}</h1>
-            </Toolbar>
-          </Grid> : null }
+          {profile ? (
+            <Grid item>
+              <Toolbar>
+                <h1>
+                  {profile.firstname} {profile.lastname}
+                </h1>
+              </Toolbar>
+            </Grid>
+          ) : null}
           <Grid item>
-            <Toolbar>
-           <Tooltip title="Conversations">
+            {profile ? (
+              <Toolbar>
                 <IconButton
                   color="default"
-                  aria-label="contacts"
-                  onClick={() => changeDrawerContent("contacts")}
-                >
-                  <ContactsIcon fontSize="large" />
-                </IconButton>
-            </Tooltip>
-              <Tooltip title="Conversations">
-                <IconButton
-                  color="default"
-                  aria-label="conversations"
                   onClick={() => changeDrawerContent("conversations")}
                 >
-                  <Forum fontSize="large" />
+                  <ForumSharp fontSize="large" />
                 </IconButton>
-              </Tooltip>
-              <ConnectButton />
-              <ProfileButton />
-            </Toolbar>
+                <IconButton
+                  color="default"
+                  onClick={() => changeDrawerContent("contacts")}
+                >
+                  <Contacts fontSize="large" />
+                </IconButton>
+                <ProfileButton />
+              </Toolbar>
+            ) : (
+              disconnectNavbar
+            )}
           </Grid>
         </Grid>
       </AppBar>

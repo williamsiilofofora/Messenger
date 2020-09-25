@@ -15,7 +15,9 @@ interface IAttendeesListProps {
   attendees: IProfile[];
   targets?: string[]
 }
-
+interface IAttendeesListPropsInit {
+  targets: string[];
+}
 class AttendeesList extends React.Component<
   IAttendeesListProps
 > {
@@ -36,7 +38,7 @@ class AttendeesList extends React.Component<
     );
   }
 }
-const mapStateToProps = ({ profile }: IAppState, { targets }: IAttendeesListProps) => ({
+const mapStateToProps = ({ profile }: IAppState, { targets }: IAttendeesListPropsInit) => ({
   attendees: profile.list.filter(user=> targets?.includes(user._id))
 })
 export default connect(mapStateToProps)(AttendeesList);

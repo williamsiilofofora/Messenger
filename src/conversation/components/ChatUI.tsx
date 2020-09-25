@@ -5,23 +5,26 @@ import { Loader } from "../../layout/utils/loader";
 import { IConversation } from "../types";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
-import history from '../../history';
 import { IAppState } from "../../appReducer";
 import { connect } from "react-redux";
+import {IConversationMessage } from "../types";
+import { updateConversationWithNewMessage } from "../actions/updateConversationWithNewMessage";
+import AttendeesList from "./AttendeesList";
 
 
-interface ChatUIState {
- conversation?: IConversation; 
-}
+// interface ChatUIState {
+//  conversation?: IConversation; 
+// }
 
 interface ChatUIProps {
   match: match<{ conversationId: string }>;
   location: any;
   history: any;
-  conversations: IConversation[];
+  conversation?: IConversation;
+  updateConversationMessage: (message: IConversationMessage) => void;
 }
 
-class ChatUI extends React.Component<ChatUIProps, ChatUIState> {
+class ChatUI extends React.Component<ChatUIProps> {
   // connectedUser = this.state.conversation?._id
   constructor(props: ChatUIProps) {
     super(props);
@@ -29,74 +32,44 @@ class ChatUI extends React.Component<ChatUIProps, ChatUIState> {
   }
 
   conversationSeen = () => {
-    if (this.state.conversation) {
-      patchConversationSeen(this.state.conversation._id);
-    }
-  };
-
-  componentDidMount() {
-    const conversations = this.props.conversations;
-    const conversationId = this.props.match.params.conversationId;
-    let conversation = conversations.find(
-      (conv) => conv._id === conversationId
-    );
-    if (!conversation) {
-      const target = new URLSearchParams(this.props.location.search).get(
-        "target"
-      );
-      if (!target) {
-        return history.push("/");
-      }
-      conversation = {
-        _id: conversationId,
-        messages: [],
-        unseenMessages: 0,
-        updatedAt: new Date(),
-        targets: [target],
-      };
-    }
-    this.setState({ conversation: conversation });
+        if (this.props.conversation) {
+          patchConversationSeen(this.props.conversation._id);
+        }
   }
   doSendMessage = async (message: string) => {
-    const { conversation } = this.state;
+    const { conversation } = this.props;
     if (conversation) {
       const sentMessage = await sendMessage(
         conversation._id,
         conversation.targets,
         message
       );
-      this.setState({
-        conversation: {
-          ...conversation,
-          messages: [...conversation.messages, sentMessage],
-        },
-      });
+            this.props.updateConversationMessage(sentMessage);
     }
   };
   render() {
     const conversation = this.props;
-    if (!conversation) return <Loader />;
+    if (!conversation) { return <Loader />; }
+    else {
     return (
       <div className="chatbox">
         <Fragment>
           <h1>Chat</h1>
-          {this.state.conversation ? (
+          {this.props.conversation ? (
             <div className="chatbox-container">
               <Fragment>
                 <ChatMessages
                   conversationSeen={this.conversationSeen}
-                  messages={this.state.conversation.messages}
+                  messages={this.props.conversation.messages}
                   // users={this.props.users}
                 />
                 <ChatInput
                   doSendMessage={this.doSendMessage}
                   conversationId={this.props.match.params.conversationId}
                 />
-                {/* <AttendeesList
-              attendees={this.props.users.filter((user) =>
-                this.state.conversation?.targets.includes(user._id)
-              )}
-            /> */}
+                <div style={{ height: "100%", flexGrow: 0, width: "15%" }}>
+                  <AttendeesList targets={this.props.conversation?.targets} />
+                </div>
               </Fragment>
             </div>
           ) : (
@@ -107,8 +80,18 @@ class ChatUI extends React.Component<ChatUIProps, ChatUIState> {
     );
   }
 }
-
-const mapStateToProps = ({ conversation }: IAppState) => ({
-  conversations: conversation.list,
+}
+const mapStateToProps = (
+  { conversation }: IAppState,
+  { match }: ChatUIProps
+) => ({
+  conversation: conversation.list.find(
+    (conversation) => conversation._id === match.params.conversationId
+  ),
 });
-export default connect(mapStateToProps)(withRouter(ChatUI));
+const mapDispatchToProps = (dispatch: any) => ({
+  updateConversationMessage: (message: IConversationMessage) =>
+    dispatch(updateConversationWithNewMessage(message)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ChatUI));

@@ -2,6 +2,7 @@ import { TextField, Fab } from '@material-ui/core';
 import { Send } from '@material-ui/icons';
 import * as React from 'react';
 
+
 interface IChatInputState {
   message: string;
 }
