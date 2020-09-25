@@ -50,13 +50,29 @@
   color: white!important;
 }
 .msg {
-  border: 1px solid grey;
+  width: 100%;
+  position: relative;
+  /* display: flex; */
 }
 .blue {
   background-color: rgb(30, 104, 243);
-  color:white
+  color:white;
+  border-radius: 10px;
+  padding: 5px 10px;
+  max-width: 25%;
+  margin-bottom: 5px;
+  /* position: relative;
+  display: grid; */
+  /* justify-content: flex-start; */
 }
 .green {
   background-color: green;
-  color: white
+  color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+    max-width: 25%;
+    margin-bottom: 5px;
+    /* position: relative;
+    display: grid;*/
+    /* justify-content: flex-end;  */
 }

@@ -1,12 +1,11 @@
 import * as React from "react";
-import { User } from "../../users/types";
 import { IConversationMessage } from "../types";
 import ChatMessage from "./ChatMessage";
 
 export interface IChatMessagesProps {
   messages: IConversationMessage[];
   conversationSeen: () => void;
-  connectedUser?: User;
+
 }
 
 export default class ChatMessages extends React.Component<IChatMessagesProps> {

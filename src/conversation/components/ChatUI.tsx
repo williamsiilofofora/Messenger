@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { match, withRouter } from "react-router-dom";
 import { patchConversationSeen, sendMessage } from "../../api/methods";
 import { Loader } from "../../layout/utils/loader";
-import { User } from "../../users/types";
 import { IConversation } from "../types";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
@@ -13,7 +12,6 @@ import { connect } from "react-redux";
 
 interface ChatUIState {
  conversation?: IConversation; 
-
 }
 
 interface ChatUIProps {
@@ -21,7 +19,6 @@ interface ChatUIProps {
   location: any;
   history: any;
   conversations: IConversation[];
-  connectedUser?: User;
 }
 
 class ChatUI extends React.Component<ChatUIProps, ChatUIState> {
@@ -80,30 +77,33 @@ class ChatUI extends React.Component<ChatUIProps, ChatUIState> {
     const conversation = this.props;
     if (!conversation) return <Loader />;
     return (
-      <Fragment>
-        <h1>Chat</h1>
-        {this.state.conversation ? (
-          <Fragment>
-            <ChatMessages
-              conversationSeen={this.conversationSeen}
-              messages={this.state.conversation.messages}
-              // users={this.props.users}
-              connectedUser={this.props.connectedUser}
-            />
-            <ChatInput
-              doSendMessage={this.doSendMessage}
-              conversationId={this.props.match.params.conversationId}
-            />
-            {/* <AttendeesList
+      <div className="chatbox">
+        <Fragment>
+          <h1>Chat</h1>
+          {this.state.conversation ? (
+            <div className="chatbox-container">
+              <Fragment>
+                <ChatMessages
+                  conversationSeen={this.conversationSeen}
+                  messages={this.state.conversation.messages}
+                  // users={this.props.users}
+                />
+                <ChatInput
+                  doSendMessage={this.doSendMessage}
+                  conversationId={this.props.match.params.conversationId}
+                />
+                {/* <AttendeesList
               attendees={this.props.users.filter((user) =>
                 this.state.conversation?.targets.includes(user._id)
               )}
             /> */}
-          </Fragment>
-        ) : (
-          <h1>Impossible de trouver la conversation</h1>
-        )}
-      </Fragment>
+              </Fragment>
+            </div>
+          ) : (
+            <h1>Impossible de trouver la conversation</h1>
+          )}
+        </Fragment>
+      </div>
     );
   }
 }

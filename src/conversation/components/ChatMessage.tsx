@@ -21,20 +21,37 @@ class ChatMessage extends React.Component<IChatMessageProps> {
     
     if (this.props.connectedUser) {
       if (this.props.message.emitter === this.props.connectedUser?._id) {
-        div = <div className="blue">{this.props.message.content}</div>;
-      } else {
-        div = <div className="green">{this.props.message.content}</div>;
-      }
-   }
-      return (
-        <div>
-          <div className="msg">
+        div = (
+          <div className="blue">
+            {this.users?.firstname} dit :<br />
+            {this.props.message.content}
+            <br />
             <div>
-              {this.users?.lastname} {this.users?.firstname}
               <span>{this.props?.message.createdAt}</span>
             </div>
-            {div}
-            <div>{this.props.message.content}</div>
+          </div>
+        );
+      } else {
+        div = (
+          <div className="green">
+            {this.users?.firstname} dit :<br />
+            {this.props.message.content}
+            <br />
+            <div>
+              <span>{this.props?.message.createdAt}</span>
+            </div>
+          </div>
+        );
+      }
+    }
+    
+      return (
+        <div className="">
+        
+          <div className="msg">
+            <div>
+              {div}
+            </div>
           </div>
         </div>
       )
@@ -43,6 +60,7 @@ class ChatMessage extends React.Component<IChatMessageProps> {
 
 const mapStateToProps = ({ profile }: IAppState) => ({
   users: profile.list,
+  connectedUser : profile.connectedProfile
 });
 
 export default connect(mapStateToProps)(ChatMessage);

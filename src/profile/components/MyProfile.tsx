@@ -39,7 +39,9 @@ class MyProfile extends React.Component<IProfileFormProps, IProfileFormState> {
         password: defaultPasswordField(),
         confirmation: defaultFormField(),
       },
+      
     };
+    
   }
 
  

@@ -45,7 +45,7 @@ export function AppMenu({ changeDrawerContent, profile } : AppMenuProps) {
           <Grid item>
             <Toolbar>
               <Forum fontSize="large" />
-              <Typography variant="h3">flint.</Typography>
+              <Typography variant="h3">MESSENGER.</Typography>
             </Toolbar>
           </Grid>
           { profile ? <Grid item>
