@@ -1,12 +1,10 @@
 import AppBar from "@material-ui/core/AppBar";
 import Grid from "@material-ui/core/Grid";
 import Forum from "@material-ui/icons/Forum";
-
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import React, { Fragment } from "react";
 import { ProfileButton } from "./ProfileButton";
-
 import { IDrawerContent } from "../types";
 import { AccountCircle, Contacts, ForumSharp } from "@material-ui/icons";
 import {IconButton } from "@material-ui/core";
@@ -15,17 +13,7 @@ import { IAppState } from "../../appReducer";
 import { connect } from "react-redux";
 import { changeDrawerContent } from "../actions/changeDrawerContentAction";
 import { Link } from "react-router-dom";
-
-
-
-// const useStyles = makeStyles({
- 
-//   root: {
-//     color: "#FFFFFF",
-//     textDecoration: "none"
-
-//   },
-// });
+import { ConnectButton } from "./ConnectButton";
 
 interface AppMenuProps {
   changeDrawerContent: (content: IDrawerContent) => void;
@@ -81,6 +69,8 @@ const disconnectNavbar = (
                 >
                   <Contacts fontSize="large" />
                 </IconButton>
+                <ConnectButton />
+                
                 <ProfileButton />
               </Toolbar>
             ) : (

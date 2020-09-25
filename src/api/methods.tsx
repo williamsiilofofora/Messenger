@@ -3,8 +3,6 @@ import axios from 'axios';
 import { IProfile } from "../profile/types";
 import { IConversation, IConversationMessage } from "../conversation/types";
 
-
-
 // function liste des utilisateur
 export function getUsers(): Promise<IProfile[]> {
   return axios
@@ -18,6 +16,7 @@ export function getUsers(): Promise<IProfile[]> {
       return resp.data
     })
 }
+
 // function de recuperation de profile User
 export function getConnectedProfile(): Promise<IProfile> {
   return axios
@@ -29,8 +28,6 @@ export function getConnectedProfile(): Promise<IProfile> {
     )
     .then((resp) => resp.data);
 }
-
-
 
 // function de log utilisateur
 export function login(
@@ -69,12 +66,14 @@ export function register(
   
   );
 }
+
 // export default class Logout extends Component {
 //   logout = () => {
 //     window.localStorage.clear();
 //     window.location.href = "http://localhost:3001/";
 //   };
 // }
+
 export async function sendMessage(conversationId: string, targets: string[], content: string): Promise<IConversationMessage> {
   const resp = await axios.post(
     `${process.env.REACT_APP_BACKEND}/messages`,

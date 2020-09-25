@@ -52,11 +52,11 @@ class ChatUI extends React.Component<ChatUIProps> {
     if (!conversation) { return <Loader />; }
     else {
     return (
-      <div className="chatbox">
+      <div className="chatBox">
         <Fragment>
           <h1>Chat</h1>
           {this.props.conversation ? (
-            <div className="chatbox-container">
+            <div className="chatBox-container">
               <Fragment>
                 <ChatMessages
                   conversationSeen={this.conversationSeen}

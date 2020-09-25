@@ -57,7 +57,7 @@ export default class ChatInput extends React.Component<IChatInputProps, IChatInp
             }}
           >
             <Fab type="submit" color="primary" aria-label="send">
-              <Send fontSize="large" />
+              <Send fontSize="large"  />
             </Fab>
           </div>
         </div>
